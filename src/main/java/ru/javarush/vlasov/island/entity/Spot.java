@@ -12,8 +12,28 @@ public class Spot {
     }
 
     public void makeNature() {
-        for (int i = 1; i <= RndGen.getRndNum(Bear.SPECIES_PER_SPOT + 1); i++) {
-            nature.add(new Bear());
+        createSpecies(new Bear());
+        createSpecies(new Boa());
+        createSpecies(new Boar());
+        createSpecies(new Buffalo());
+        createSpecies(new Caterpillar());
+        createSpecies(new Deer());
+        createSpecies(new Duck());
+        createSpecies(new Eagle());
+        createSpecies(new Fox());
+        createSpecies(new Goat());
+        createSpecies(new Horse());
+        createSpecies(new Mouse());
+        createSpecies(new Plant());
+        createSpecies(new Rabbit());
+        createSpecies(new Sheep());
+        createSpecies(new Wolf());
+    }
+
+    private void createSpecies(Nature n) {
+        nature.add(n);
+        for (int i = 1; i <= RndGen.getRndNum(n.getSpeciesPerSpot()); i++) {
+            nature.add(n.getInstance());
         }
     }
 }

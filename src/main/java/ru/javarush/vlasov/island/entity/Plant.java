@@ -1,11 +1,11 @@
 package ru.javarush.vlasov.island.entity;
 
 public class Plant implements Nature {
-    private final int WEIGHT = 1;
+    private final float WEIGHT = 1;
     private final int SPECIES_PER_SPOT = 200;
     private boolean isDead = false;
 
-    public int getWeight() {
+    public float getWeight() {
         return WEIGHT;
     }
     public int getSpeciesPerSpot() {
@@ -19,4 +19,10 @@ public class Plant implements Nature {
     public void setDead(boolean dead) {
         isDead = dead;
     }
+
+    @Override
+    public Nature getInstance() {
+        return new Plant();
+    }
+
 }

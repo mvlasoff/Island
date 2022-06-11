@@ -20,17 +20,15 @@ public class SpotRunner {
     public void runSpot() {
         spot.makeNature();
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
-        do {
+        ExecutorService executorService = Executors.newFixedThreadPool(500);
             for (Nature n : nature) {
                 if (n instanceof Animal) {
-                    executorService.execute(new AnimalRunner((Animal) n));
+                    executorService.execute(new AnimalRunner((Animal) n, spot));
                 }
                 else if (n instanceof Plant) {
-                    executorService.execute(new PlantRunner((Plant) n));
+                    executorService.execute(new PlantRunner((Plant) n, spot));
                 }
             }
-        } while (spot.getNature().size() > 0);
         executorService.shutdown();
     }
 }

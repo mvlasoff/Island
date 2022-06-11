@@ -6,7 +6,7 @@ public abstract class Animal implements Nature {
 
     public abstract float getWeight();
 
-    //public abstract int getSpeciesPerSpot();
+    public abstract int getSpeciesPerSpot();
 
     public abstract int getTravelSpeed();
 
@@ -17,4 +17,8 @@ public abstract class Animal implements Nature {
     public abstract boolean isDead();
 
     public abstract void setDead(boolean dead);
+
+    public abstract int getFull();
+
+    public abstract void setFull(int full);
 }

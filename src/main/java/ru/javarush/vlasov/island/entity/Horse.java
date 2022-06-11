@@ -9,6 +9,7 @@ public class Horse extends Herbivore {
     private final float FOOD_LIMIT = 60;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
     private boolean isDead = false;
+    private int full = 0;
     public Horse() {
         CHANCE_TO_EAT.put(Bear.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 0);
@@ -55,5 +56,17 @@ public class Horse extends Herbivore {
     @Override
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public int getFull() {
+        return full;
+    }
+
+    public void setFull(int full) {
+        this.full = full;
+    }
+
+    public Nature getInstance() {
+        return new Horse();
     }
 }

@@ -5,12 +5,13 @@ import java.util.Objects;
 
 public class Bear extends Predator {
     private final float WEIGHT = 500;
-    public static final int SPECIES_PER_SPOT = 5;
+    private final int SPECIES_PER_SPOT = 5;
     private final int TRAVEL_SPEED = 2;
     private final float FOOD_LIMIT = 80;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
-
     private boolean isDead = false;
+
+    private int full = 0;
 
     public Bear() {
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 80);
@@ -35,9 +36,9 @@ public class Bear extends Predator {
         return WEIGHT;
     }
 
-    /*public static int getSpeciesPerSpot() {
+    public int getSpeciesPerSpot() {
         return SPECIES_PER_SPOT;
-    }*/
+    }
 
     public int getTravelSpeed() {
         return TRAVEL_SPEED;
@@ -59,5 +60,18 @@ public class Bear extends Predator {
     @Override
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public int getFull() {
+        return full;
+    }
+
+    public void setFull(int full) {
+        this.full = full;
+    }
+
+    @Override
+    public Nature getInstance() {
+        return new Bear();
     }
 }
