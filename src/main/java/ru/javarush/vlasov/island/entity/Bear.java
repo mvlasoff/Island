@@ -10,6 +10,8 @@ public class Bear extends Predator {
     private final float FOOD_LIMIT = 80;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
 
+    private boolean isDead = false;
+
     public Bear() {
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 80);
         CHANCE_TO_EAT.put(Boar.class.getCanonicalName(), 50);
@@ -47,5 +49,15 @@ public class Bear extends Predator {
 
     public HashMap<String, Integer> getChanceToEat() {
         return CHANCE_TO_EAT;
+    }
+
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 }

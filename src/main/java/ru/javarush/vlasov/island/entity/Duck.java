@@ -8,6 +8,7 @@ public class Duck extends Herbivore {
     private final int TRAVEL_SPEED = 4;
     private final float FOOD_LIMIT = 0.15F;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
+    private boolean isDead = false;
     public Duck() {
         CHANCE_TO_EAT.put(Bear.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 0);
@@ -44,5 +45,15 @@ public class Duck extends Herbivore {
 
     public HashMap<String, Integer> getChanceToEat() {
         return CHANCE_TO_EAT;
+    }
+
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 }
