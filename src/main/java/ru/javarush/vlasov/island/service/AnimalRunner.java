@@ -20,16 +20,16 @@ public class AnimalRunner implements Runnable, Live {
 
     @Override
     public void eat() {
-        System.out.println(animal.getClass().getCanonicalName() + "eat");
+        System.out.println(animal.toString() + " eat");
     }
 
     @Override
     public void reproduce() {
-        System.out.println(animal.getClass().getCanonicalName() + "reproduce");
+        System.out.println(animal.toString() + " reproduce");
     }
 
     @Override
     public void move() {
-        System.out.println(animal.getClass().getCanonicalName() + "move");
+        System.out.println(animal.toString() + " move");
     }
 }

@@ -1,6 +1,6 @@
 package ru.javarush.vlasov.island.entity;
 
-public class Plant {
+public class Plant implements Nature {
     private final int WEIGHT = 1;
     private final int SPECIES_PER_SPOT = 200;
     private boolean isDead = false;

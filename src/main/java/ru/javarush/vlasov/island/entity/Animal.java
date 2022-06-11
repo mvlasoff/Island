@@ -2,11 +2,11 @@ package ru.javarush.vlasov.island.entity;
 
 import java.util.HashMap;
 
-public abstract class Animal {
+public abstract class Animal implements Nature {
 
     public abstract float getWeight();
 
-    public abstract int getSpeciesPerSpot();
+    //public abstract int getSpeciesPerSpot();
 
     public abstract int getTravelSpeed();
 

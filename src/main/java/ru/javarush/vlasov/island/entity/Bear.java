@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Bear extends Predator {
     private final float WEIGHT = 500;
-    private final int SPECIES_PER_SPOT = 5;
+    public static final int SPECIES_PER_SPOT = 5;
     private final int TRAVEL_SPEED = 2;
     private final float FOOD_LIMIT = 80;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
@@ -35,9 +35,9 @@ public class Bear extends Predator {
         return WEIGHT;
     }
 
-    public int getSpeciesPerSpot() {
+    /*public static int getSpeciesPerSpot() {
         return SPECIES_PER_SPOT;
-    }
+    }*/
 
     public int getTravelSpeed() {
         return TRAVEL_SPEED;
