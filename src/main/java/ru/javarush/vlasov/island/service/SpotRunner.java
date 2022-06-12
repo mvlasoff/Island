@@ -5,9 +5,8 @@ import ru.javarush.vlasov.island.entity.Nature;
 import ru.javarush.vlasov.island.entity.Plant;
 import ru.javarush.vlasov.island.entity.Spot;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class SpotRunner {
     private final Spot spot;
@@ -20,15 +19,30 @@ public class SpotRunner {
     public void runSpot() {
         spot.makeNature();
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        ExecutorService executorService = Executors.newFixedThreadPool(500);
-            for (Nature n : nature) {
-                if (n instanceof Animal) {
-                    executorService.execute(new AnimalRunner((Animal) n, spot));
-                }
-                else if (n instanceof Plant) {
-                    executorService.execute(new PlantRunner((Plant) n, spot));
-                }
+        ExecutorService executorService = Executors.newFixedThreadPool(64);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
+
+        scheduledExecutorService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
+        //executorService.submit(new SpotCleaner(spot));
+
+        for (Nature n : nature) {
+            if (n instanceof Animal) {
+                executorService.submit(new AnimalRunner((Animal) n, spot));
+            } else if (n instanceof Plant) {
+                executorService.submit(new PlantRunner((Plant) n, spot));
             }
-        executorService.shutdown();
+        }
+
+
+        try {
+            Thread.currentThread().sleep(5000);
+            executorService.shutdown();
+            scheduledExecutorService.shutdown();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        executorService.shutdownNow();
+        scheduledExecutorService.shutdownNow();
     }
 }

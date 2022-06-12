@@ -1,9 +1,11 @@
 package ru.javarush.vlasov.island.entity;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Plant implements Nature {
     private final float WEIGHT = 1;
     private final int SPECIES_PER_SPOT = 200;
-    private boolean isDead = false;
+    private AtomicBoolean isDead = new AtomicBoolean(false);
 
     public float getWeight() {
         return WEIGHT;
@@ -13,11 +15,11 @@ public class Plant implements Nature {
     }
 
     public boolean isDead() {
-        return isDead;
+        return isDead.get();
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
+    public void setDead() {
+        isDead.set(true);
     }
 
     @Override

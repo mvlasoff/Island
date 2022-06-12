@@ -8,8 +8,7 @@ public class Eagle extends Predator {
     private final int TRAVEL_SPEED = 3;
     private final float FOOD_LIMIT = 1;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
-    private boolean isDead = false;
-    private int full = 0;
+
     public Eagle() {
         CHANCE_TO_EAT.put(Bear.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 0);
@@ -46,24 +45,6 @@ public class Eagle extends Predator {
 
     public HashMap<String, Integer> getChanceToEat() {
         return CHANCE_TO_EAT;
-    }
-
-    @Override
-    public boolean isDead() {
-        return isDead;
-    }
-
-    @Override
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
-    public int getFull() {
-        return full;
-    }
-
-    public void setFull(int full) {
-        this.full = full;
     }
 
     public Nature getInstance() {

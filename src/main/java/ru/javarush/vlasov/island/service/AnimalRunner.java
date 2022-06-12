@@ -19,10 +19,14 @@ public class AnimalRunner implements Runnable, Live {
 
     @Override
     public void run() {
-        eat();
-        reproduce();
-        move();
-        Sleeper.sleep(10);
+        do {
+            eat();
+            Sleeper.sleep(300);
+            reproduce();
+            Sleeper.sleep(300);
+            move();
+            Sleeper.sleep(300);
+        } while (!Thread.currentThread().isInterrupted());
     }
 
     @Override
@@ -31,7 +35,10 @@ public class AnimalRunner implements Runnable, Live {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
         for (Nature n : nature) {
-            if (animal != n && !animal.isDead() && !n.isDead() && animal.getFoodLimit() > animal.getFull()) {
+            if (animal != n
+                    && !animal.isDead()
+                    && !n.isDead()
+                    && animal.getFoodLimit() > animal.getFull()) {
                 tryToEat(n);
             }
         }
@@ -42,9 +49,9 @@ public class AnimalRunner implements Runnable, Live {
         if (chance != null && chance > 0) {
             int rndNum = RndGen.getRndNum(100);
             if (chance >= rndNum) {
-                n.setDead(true);
-                animal.setFull(animal.getFull() + (int) n.getWeight());
-                System.out.println(animal + " ate " + n);
+                n.setDead();
+                animal.setFull(animal.getFull() + n.getWeight());
+                //System.out.println(animal + " ate " + n);
             }
         }
     }
@@ -52,14 +59,14 @@ public class AnimalRunner implements Runnable, Live {
     @Override
     public void reproduce() {
         if (!animal.isDead()) {
-            System.out.println(animal.toString() + " reproduce");
+            //System.out.println(animal.toString() + " reproduce");
         }
     }
 
     @Override
     public void move() {
         if (!animal.isDead()) {
-            System.out.println(animal.toString() + " move");
+            //System.out.println(animal.toString() + " move");
         }
     }
 }

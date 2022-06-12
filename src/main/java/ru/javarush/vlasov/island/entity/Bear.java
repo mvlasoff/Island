@@ -2,6 +2,7 @@ package ru.javarush.vlasov.island.entity;
 
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Bear extends Predator {
     private final float WEIGHT = 500;
@@ -9,9 +10,6 @@ public class Bear extends Predator {
     private final int TRAVEL_SPEED = 2;
     private final float FOOD_LIMIT = 80;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
-    private boolean isDead = false;
-
-    private int full = 0;
 
     public Bear() {
         CHANCE_TO_EAT.put(Boa.class.getCanonicalName(), 80);
@@ -50,24 +48,6 @@ public class Bear extends Predator {
 
     public HashMap<String, Integer> getChanceToEat() {
         return CHANCE_TO_EAT;
-    }
-
-    @Override
-    public boolean isDead() {
-        return isDead;
-    }
-
-    @Override
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
-    public int getFull() {
-        return full;
-    }
-
-    public void setFull(int full) {
-        this.full = full;
     }
 
     @Override

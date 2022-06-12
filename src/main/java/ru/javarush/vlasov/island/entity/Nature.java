@@ -3,7 +3,7 @@ package ru.javarush.vlasov.island.entity;
 public interface Nature {
     int getSpeciesPerSpot();
 
-    void setDead(boolean dead);
+    void setDead();
 
     float getWeight();
 

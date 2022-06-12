@@ -9,8 +9,6 @@ public class Boa extends Predator {
     private final float FOOD_LIMIT = 3;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
 
-    private boolean isDead = false;
-    private int full = 0;
     public Boa() {
         CHANCE_TO_EAT.put(Bear.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Boar.class.getCanonicalName(), 0);
@@ -47,25 +45,6 @@ public class Boa extends Predator {
 
     public HashMap<String, Integer> getChanceToEat() {
         return CHANCE_TO_EAT;
-    }
-
-    @Override
-    public boolean isDead() {
-        return isDead;
-    }
-
-    @Override
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
-    @Override
-    public int getFull() {
-        return full;
-    }
-
-    public void setFull(int full) {
-        this.full = full;
     }
 
     @Override
