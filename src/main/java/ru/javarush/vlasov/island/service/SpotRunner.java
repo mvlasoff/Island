@@ -19,30 +19,32 @@ public class SpotRunner {
     public void runSpot() {
         spot.makeNature();
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        ExecutorService executorService = Executors.newFixedThreadPool(64);
+        ExecutorService animalExecService = Executors.newFixedThreadPool(64);
+        ExecutorService plantExecService = Executors.newFixedThreadPool(64);
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
 
         scheduledExecutorService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
         scheduledExecutorService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
-        //executorService.submit(new SpotCleaner(spot));
 
         for (Nature n : nature) {
             if (n instanceof Animal) {
-                executorService.submit(new AnimalRunner((Animal) n, spot));
+                animalExecService.submit(new AnimalRunner((Animal) n, spot));
             } else if (n instanceof Plant) {
-                executorService.submit(new PlantRunner((Plant) n, spot));
+                plantExecService.submit(new PlantRunner((Plant) n, spot));
             }
         }
 
 
         try {
             Thread.currentThread().sleep(5000);
-            executorService.shutdown();
+            animalExecService.shutdown();
+            plantExecService.shutdown();
             scheduledExecutorService.shutdown();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        executorService.shutdownNow();
+        animalExecService.shutdownNow();
+        plantExecService.shutdownNow();
         scheduledExecutorService.shutdownNow();
     }
 }

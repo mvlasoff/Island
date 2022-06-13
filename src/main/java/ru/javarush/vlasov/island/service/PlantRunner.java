@@ -4,7 +4,7 @@ import ru.javarush.vlasov.island.entity.Plant;
 import ru.javarush.vlasov.island.entity.Spot;
 import ru.javarush.vlasov.island.utility.Sleeper;
 
-public class PlantRunner implements Runnable, Grow {
+public class PlantRunner implements Runnable {
     private final Plant plant;
     private final Spot spot;
 
@@ -15,12 +15,13 @@ public class PlantRunner implements Runnable, Grow {
 
     @Override
     public void run() {
-        reproduce();
-        Sleeper.sleep(10);
+        do {
+            reproduce();
+            Sleeper.sleep(10);
+        } while (!Thread.currentThread().isInterrupted());
     }
 
-    @Override
     public void reproduce() {
-        System.out.println(plant.getClass().getCanonicalName() + " reproduce");
+        //System.out.println(plant.getClass().getCanonicalName() + " reproduce");
     }
 }

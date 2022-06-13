@@ -7,6 +7,10 @@ public class RndGen {
     }
 
     public static int getRndNum(int num) {
-        return ThreadLocalRandom.current().nextInt(num / 2, num);
+        return ThreadLocalRandom.current().nextInt(num);
+    }
+
+    public static int getRndNum(int from, int num) {
+        return ThreadLocalRandom.current().nextInt(from, num);
     }
 }

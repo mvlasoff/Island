@@ -32,7 +32,7 @@ public class Spot {
 
     private void createSpecies(Nature n) {
         nature.add(n);
-        for (int i = 1; i <= RndGen.getRndNum(n.getSpeciesPerSpot()); i++) {
+        for (int i = 1; i <= RndGen.getRndNum(n.getSpeciesPerSpot() / 2, n.getSpeciesPerSpot() + 1); i++) {
             nature.add(n.getInstance());
         }
     }

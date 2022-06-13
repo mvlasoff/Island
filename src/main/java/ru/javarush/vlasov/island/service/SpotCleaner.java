@@ -25,6 +25,7 @@ public class SpotCleaner implements Runnable {
         for (int i = 0; i < nature.size(); i++) {
             if (nature.get(i) != null && nature.get(i).isDead()) {
                 nature.remove(i);
+                i--;
             }
         }
 
