@@ -7,28 +7,30 @@ import ru.javarush.vlasov.island.entity.Spot;
 import ru.javarush.vlasov.island.utility.RndGen;
 import ru.javarush.vlasov.island.utility.Sleeper;
 
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class AnimalRunner implements Runnable {
     private final Animal animal;
     private final Spot spot;
 
+    private final ScheduledExecutorService animalExecService;
+
     public AnimalRunner(Animal animal, Spot spot) {
         this.animal = animal;
         this.spot = spot;
+        this.animalExecService = Executors.newScheduledThreadPool(64);
     }
 
     @Override
     public void run() {
-        do {
-            Sleeper.sleep(100);
-            eat();
-            Sleeper.sleep(100);
-            reproduce();
-            Sleeper.sleep(100);
-            move();
-            Sleeper.sleep(100);
-        } while (!Thread.currentThread().isInterrupted());
+        eat();
+        //Sleeper.sleep(100);
+        reproduce();
+        move();
     }
 
     public void eat() {
@@ -59,9 +61,19 @@ public class AnimalRunner implements Runnable {
         }
     }
 
+    //TODO: add limit for reproducing.
     public void reproduce() {
-        if (!animal.isDead()) {
+        CopyOnWriteArrayList<Nature> nature = spot.getNature();
+        ArrayList<Nature> newNature = new ArrayList<>();
+        for (Nature n : nature) {
+            if (animal != n
+                    && !animal.isDead()
+                    && !n.isDead()
+                    && animal.getClass() == n.getClass()) {
+                newNature.add(animal.getInstance());
+            }
         }
+        nature.addAll(newNature);
     }
 
     public void move() {

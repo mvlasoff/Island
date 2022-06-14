@@ -4,7 +4,9 @@ import ru.javarush.vlasov.island.entity.Animal;
 import ru.javarush.vlasov.island.entity.Nature;
 import ru.javarush.vlasov.island.entity.Plant;
 import ru.javarush.vlasov.island.entity.Spot;
+import ru.javarush.vlasov.island.utility.Sleeper;
 
+import java.util.ListIterator;
 import java.util.Scanner;
 import java.util.concurrent.*;
 
@@ -19,32 +21,40 @@ public class SpotRunner {
     public void runSpot() {
         spot.makeNature();
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        ExecutorService animalExecService = Executors.newFixedThreadPool(64);
-        ExecutorService plantExecService = Executors.newFixedThreadPool(64);
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
+        CopyOnWriteArrayList<Nature> oldNature = spot.getNature();
 
-        scheduledExecutorService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
-        scheduledExecutorService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
+        ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(64);
+        ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(64);
+        ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(64);
+        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(64);
 
-        for (Nature n : nature) {
-            if (n instanceof Animal) {
-                animalExecService.submit(new AnimalRunner((Animal) n, spot));
-            } else if (n instanceof Plant) {
-                plantExecService.submit(new PlantRunner((Plant) n, spot));
+        statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
+        //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
+
+        do {
+            for (Nature n : nature) {
+                if (n instanceof Animal) {
+                    animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
+                    oldNature.add(n);
+                } else if (n instanceof Plant) {
+                    plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
+                    oldNature.add(n);
+                }
             }
-        }
+            nature.removeAll(oldNature);
+        } while (nature.isEmpty());
 
 
-        try {
-            Thread.currentThread().sleep(5000);
-            animalExecService.shutdown();
-            plantExecService.shutdown();
-            scheduledExecutorService.shutdown();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Sleeper.sleep(5000);
+        animalExecService.shutdown();
+        plantExecService.shutdown();
+        cleanerExecService.shutdown();
+        statExecService.shutdown();
+
+        Sleeper.sleep(1000);
         animalExecService.shutdownNow();
         plantExecService.shutdownNow();
-        scheduledExecutorService.shutdownNow();
+        cleanerExecService.shutdownNow();
+        statExecService.shutdownNow();
     }
 }
