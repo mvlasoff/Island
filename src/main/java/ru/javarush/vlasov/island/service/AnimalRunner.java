@@ -63,7 +63,9 @@ public class AnimalRunner implements Runnable {
 
     //TODO: add limit for reproducing.
     public void reproduce() {
-        CopyOnWriteArrayList<Nature> nature = spot.getNature();
+        if (!animal.isDead()) {
+        }
+        /*CopyOnWriteArrayList<Nature> nature = spot.getNature();
         ArrayList<Nature> newNature = new ArrayList<>();
         for (Nature n : nature) {
             if (animal != n
@@ -73,7 +75,7 @@ public class AnimalRunner implements Runnable {
                 newNature.add(animal.getInstance());
             }
         }
-        nature.addAll(newNature);
+        nature.addAll(newNature);*/
     }
 
     public void move() {

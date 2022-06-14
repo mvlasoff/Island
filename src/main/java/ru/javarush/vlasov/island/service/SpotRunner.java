@@ -31,18 +31,18 @@ public class SpotRunner {
         statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
         //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
 
-        do {
+        //do {
             for (Nature n : nature) {
                 if (n instanceof Animal) {
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
-                    oldNature.add(n);
                 } else if (n instanceof Plant) {
                     plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
-                    oldNature.add(n);
                 }
+                //oldNature.add(n);
             }
+            /*nature = spot.getNature();
             nature.removeAll(oldNature);
-        } while (nature.isEmpty());
+        } while (nature.isEmpty());*/
 
 
         Sleeper.sleep(5000);
