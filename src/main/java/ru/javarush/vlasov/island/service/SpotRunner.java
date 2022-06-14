@@ -13,7 +13,6 @@ import java.util.concurrent.*;
 public class SpotRunner {
     private final Spot spot;
 
-
     public SpotRunner() {
         this.spot = new Spot();
     }
@@ -31,19 +30,14 @@ public class SpotRunner {
         statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
         //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
 
-        //do {
-            for (Nature n : nature) {
-                if (n instanceof Animal) {
-                    animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
-                } else if (n instanceof Plant) {
-                    plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
-                }
-                //oldNature.add(n);
+        for (Nature n : nature) {
+            if (n instanceof Animal) {
+                animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot, animalExecService),
+                        0, 1000, TimeUnit.MILLISECONDS);
+            } else if (n instanceof Plant) {
+                plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
             }
-            /*nature = spot.getNature();
-            nature.removeAll(oldNature);
-        } while (nature.isEmpty());*/
-
+        }
 
         Sleeper.sleep(5000);
         animalExecService.shutdown();

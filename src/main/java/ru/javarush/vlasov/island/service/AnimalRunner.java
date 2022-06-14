@@ -5,9 +5,7 @@ import ru.javarush.vlasov.island.entity.Nature;
 import ru.javarush.vlasov.island.entity.Plant;
 import ru.javarush.vlasov.island.entity.Spot;
 import ru.javarush.vlasov.island.utility.RndGen;
-import ru.javarush.vlasov.island.utility.Sleeper;
 
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,10 +17,10 @@ public class AnimalRunner implements Runnable {
 
     private final ScheduledExecutorService animalExecService;
 
-    public AnimalRunner(Animal animal, Spot spot) {
+    public AnimalRunner(Animal animal, Spot spot, ScheduledExecutorService animalExecService) {
         this.animal = animal;
         this.spot = spot;
-        this.animalExecService = Executors.newScheduledThreadPool(64);
+        this.animalExecService = animalExecService;
     }
 
     @Override
@@ -30,7 +28,13 @@ public class AnimalRunner implements Runnable {
         eat();
         //Sleeper.sleep(100);
         reproduce();
+        dieIfHungry();
         move();
+    }
+
+    private void dieIfHungry() {
+        if (!animal.isDead()) {
+        }
     }
 
     public void eat() {
@@ -63,19 +67,19 @@ public class AnimalRunner implements Runnable {
 
     //TODO: add limit for reproducing.
     public void reproduce() {
-        if (!animal.isDead()) {
-        }
-        /*CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        ArrayList<Nature> newNature = new ArrayList<>();
+        CopyOnWriteArrayList<Nature> nature = spot.getNature();
         for (Nature n : nature) {
             if (animal != n
                     && !animal.isDead()
                     && !n.isDead()
                     && animal.getClass() == n.getClass()) {
-                newNature.add(animal.getInstance());
+                Nature species = animal.getInstance();
+                nature.add(species);
+                animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
+                        0, 1000, TimeUnit.MILLISECONDS);
+                break;
             }
         }
-        nature.addAll(newNature);*/
     }
 
     public void move() {
