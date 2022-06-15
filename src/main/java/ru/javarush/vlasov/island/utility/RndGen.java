@@ -2,7 +2,7 @@ package ru.javarush.vlasov.island.utility;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RndGen {
+public final class RndGen {
     private RndGen() {
     }
 

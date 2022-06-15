@@ -34,7 +34,8 @@ public class SpotRunner {
                 animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot, animalExecService),
                         0, 1000, TimeUnit.MILLISECONDS);
             } else if (n instanceof Plant) {
-                plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot), 0, 1000, TimeUnit.MILLISECONDS);
+                plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot, plantExecService),
+                        0, 1000, TimeUnit.MILLISECONDS);
             }
         }
 

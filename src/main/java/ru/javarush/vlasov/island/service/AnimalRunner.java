@@ -4,6 +4,7 @@ import ru.javarush.vlasov.island.entity.Animal;
 import ru.javarush.vlasov.island.entity.Nature;
 import ru.javarush.vlasov.island.entity.Plant;
 import ru.javarush.vlasov.island.entity.Spot;
+import ru.javarush.vlasov.island.utility.Constant;
 import ru.javarush.vlasov.island.utility.RndGen;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,7 +26,6 @@ public class AnimalRunner implements Runnable {
     @Override
     public void run() {
         eat();
-        //Sleeper.sleep(100);
         reproduce();
         dieIfHungry();
         move();
@@ -40,21 +40,23 @@ public class AnimalRunner implements Runnable {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
         for (Nature n : nature) {
-            if (animal != n
-                    && !animal.isDead()
-                    && !n.isDead()
-                    && animal.getFoodLimit() > animal.getFull()) {
+            if (hasNextAnimal(n) && animal.getFoodLimit() > animal.getFull()) {
                 tryToEat(n);
             }
         }
     }
 
+    private boolean hasNextAnimal(Nature nextSpecies) {
+        return animal != nextSpecies && !animal.isDead() && !nextSpecies.isDead();
+    }
+
     private void tryToEat(Nature n) {
         Integer chance = animal.getChanceToEat().get(n.getClass().getCanonicalName());
         if (chance != null && chance > 0) {
-            int rndNum = RndGen.getRndNum(100);
+            int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
             if (chance >= rndNum) {
                 if (n instanceof Plant) {
+                    n.setDead();
                     animal.setFull(animal.getFull() + n.getWeight());
                 } else {
                     n.setDead();
@@ -68,10 +70,7 @@ public class AnimalRunner implements Runnable {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         if (canReproduce(animal, nature)) {
             for (Nature n : nature) {
-                if (animal != n
-                        && !animal.isDead()
-                        && !n.isDead()
-                        && animal.getClass() == n.getClass()) {
+                if (hasNextAnimal(n) && animal.getClass() == n.getClass()) {
                     Nature species = animal.getInstance();
                     nature.add(species);
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),

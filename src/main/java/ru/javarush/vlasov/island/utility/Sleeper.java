@@ -1,6 +1,6 @@
 package ru.javarush.vlasov.island.utility;
 
-public class Sleeper {
+public final class Sleeper {
     private Sleeper() {
     }
 
