@@ -7,7 +7,6 @@ import ru.javarush.vlasov.island.entity.Spot;
 import ru.javarush.vlasov.island.utility.RndGen;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -65,20 +64,35 @@ public class AnimalRunner implements Runnable {
         }
     }
 
-    //TODO: add limit for reproducing.
     public void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        for (Nature n : nature) {
-            if (animal != n
-                    && !animal.isDead()
-                    && !n.isDead()
-                    && animal.getClass() == n.getClass()) {
-                Nature species = animal.getInstance();
-                nature.add(species);
-                animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
-                        0, 1000, TimeUnit.MILLISECONDS);
-                break;
+        if (canReproduce(animal, nature)) {
+            for (Nature n : nature) {
+                if (animal != n
+                        && !animal.isDead()
+                        && !n.isDead()
+                        && animal.getClass() == n.getClass()) {
+                    Nature species = animal.getInstance();
+                    nature.add(species);
+                    animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
+                            0, 1000, TimeUnit.MILLISECONDS);
+                    break;
+                }
             }
+        }
+    }
+
+    private boolean canReproduce(Animal animal, CopyOnWriteArrayList<Nature> nature) {
+        int i = 0;
+        for (Nature species : nature) {
+            if(species.getClass() == animal.getClass()) {
+                i++;
+            }
+        }
+        if(i >= animal.getSpeciesPerSpot()) {
+            return false;
+        } else {
+            return true;
         }
     }
 

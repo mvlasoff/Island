@@ -20,7 +20,6 @@ public class SpotRunner {
     public void runSpot() {
         spot.makeNature();
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        CopyOnWriteArrayList<Nature> oldNature = spot.getNature();
 
         ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(64);
         ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(64);
@@ -28,7 +27,7 @@ public class SpotRunner {
         ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(64);
 
         statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1, TimeUnit.SECONDS);
-        //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
+        cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
 
         for (Nature n : nature) {
             if (n instanceof Animal) {
