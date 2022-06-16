@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public abstract class Animal implements Nature {
 
     private AtomicBoolean isDead = new AtomicBoolean(false);
-    private float full = 0;
+    private volatile float full = 0;
 
     public abstract float getWeight();
 
@@ -17,10 +17,6 @@ public abstract class Animal implements Nature {
     public abstract float getFoodLimit();
 
     public abstract HashMap<String, Integer> getChanceToEat();
-
-    /*public abstract boolean isDead();
-
-    public abstract void setDead();*/
 
     public boolean isDead() {
         return isDead.get();

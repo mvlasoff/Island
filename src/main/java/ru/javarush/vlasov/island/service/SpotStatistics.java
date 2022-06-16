@@ -16,21 +16,23 @@ public class SpotStatistics implements Runnable {
         int predatorCount = 0;
         int herbCount = 0;
         int plantCount = 0;
-        int deadCount = 0;
+        int deadPredators = 0, deadHerb = 0;
 
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         for (Nature species : nature) {
-            if(species instanceof Predator && !species.isDead()) {
+            if (species instanceof Predator && !species.isDead()) {
                 predatorCount++;
             } else if (species instanceof Herbivore && !species.isDead()) {
                 herbCount++;
-            } else if (species instanceof Plant && !species.isDead()) {
+            } else if (species instanceof Plant) {
                 plantCount++;
-            }
-            if(species.isDead()) {
-                deadCount++;
+            } else if (species instanceof Predator && species.isDead()) {
+                deadPredators++;
+            } else if (species instanceof Herbivore && species.isDead()) {
+                deadHerb++;
             }
         }
-        System.out.println("Predators: " + predatorCount + " *** Herbivores: " + herbCount + " *** Plants: " + plantCount+ " *** Dead: " + deadCount);
+        System.out.println("Predators: " + predatorCount + " *** Herbivores: " + herbCount + " *** Plants: " + plantCount
+                + " *** Predators died: " + deadPredators + " *** Herbivores died: " + deadHerb);
     }
 }

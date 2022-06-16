@@ -28,49 +28,25 @@ public class AnimalRunner implements Runnable {
         eat();
         reproduce();
         dieIfHungry();
+        makeHungry();
         move();
     }
 
-    private void dieIfHungry() {
-        if (!animal.isDead()) {
-        }
-    }
-
-    public void eat() {
+    private void eat() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
         for (Nature n : nature) {
-            if (hasNextAnimal(n) && animal.getFoodLimit() > animal.getFull()) {
+            if (isSpeciesAvailable(n) && animal.getFoodLimit() > animal.getFull()) {
                 tryToEat(n);
             }
         }
     }
 
-    private boolean hasNextAnimal(Nature nextSpecies) {
-        return animal != nextSpecies && !animal.isDead() && !nextSpecies.isDead();
-    }
-
-    private void tryToEat(Nature n) {
-        Integer chance = animal.getChanceToEat().get(n.getClass().getCanonicalName());
-        if (chance != null && chance > 0) {
-            int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
-            if (chance >= rndNum) {
-                if (n instanceof Plant) {
-                    n.setDead();
-                    animal.setFull(animal.getFull() + n.getWeight());
-                } else {
-                    n.setDead();
-                    animal.setFull(animal.getFull() + n.getWeight());
-                }
-            }
-        }
-    }
-
-    public void reproduce() {
+    private void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         if (canReproduce(animal, nature)) {
             for (Nature n : nature) {
-                if (hasNextAnimal(n) && animal.getClass() == n.getClass()) {
+                if (isSpeciesAvailable(n) && animal.getClass() == n.getClass()) {
                     Nature species = animal.getInstance();
                     nature.add(species);
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
@@ -81,22 +57,48 @@ public class AnimalRunner implements Runnable {
         }
     }
 
-    private boolean canReproduce(Animal animal, CopyOnWriteArrayList<Nature> nature) {
-        int i = 0;
-        for (Nature species : nature) {
-            if(species.getClass() == animal.getClass()) {
-                i++;
-            }
-        }
-        if(i >= animal.getSpeciesPerSpot()) {
-            return false;
-        } else {
-            return true;
+    private void dieIfHungry() {
+        if ((animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
+            animal.setDead();
         }
     }
 
-    public void move() {
+    private void makeHungry() {
+        animal.setFull(0.0F);
+    }
+
+    //TODO Implement this.
+    private void move() {
         if (!animal.isDead()) {
         }
+    }
+
+    private boolean isSpeciesAvailable(Nature nextSpecies) {
+        return animal != nextSpecies && !animal.isDead() && !nextSpecies.isDead();
+    }
+
+    private void tryToEat(Nature n) {
+        Integer chance = animal.getChanceToEat().get(n.getClass().getCanonicalName());
+        if (chance != null && chance > 0) {
+            int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
+            if (chance >= rndNum) {
+                if (n instanceof Plant) {
+                    animal.setFull(animal.getFull() + n.getWeight());
+                } else {
+                    n.setDead();
+                    animal.setFull(animal.getFull() + n.getWeight());
+                }
+            }
+        }
+    }
+
+    private boolean canReproduce(Animal animal, CopyOnWriteArrayList<Nature> nature) {
+        int i = 0;
+        for (Nature species : nature) {
+            if(!animal.isDead() && !species.isDead() && species.getClass() == animal.getClass()) {
+                i++;
+            }
+        }
+        return i < animal.getSpeciesPerSpot();
     }
 }
