@@ -67,7 +67,6 @@ public class AnimalRunner implements Runnable {
         animal.setFull(0.0F);
     }
 
-    //TODO Implement this.
     private void move() {
         if (!animal.isDead()) {
 
