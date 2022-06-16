@@ -27,10 +27,8 @@ public class SpotRunner {
         for (int i = 0; i < spots.length; i++) {
             for (int j = 0; j < spots[i].length; j++) {
 
-
                 spots[i][j].makeNature();
                 CopyOnWriteArrayList<Nature> nature = spots[i][j].getNature();
-
 
                 statExecService.scheduleAtFixedRate(new SpotStatistics(spots[i][j]), 0, 1000, TimeUnit.MILLISECONDS);
                 //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);

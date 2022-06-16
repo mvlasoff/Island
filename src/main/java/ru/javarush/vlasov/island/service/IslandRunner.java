@@ -15,7 +15,7 @@ public class IslandRunner {
         Spot[][] spots = island.getSpots();
         for (int i = 0; i < spots.length; i++) {
             for (int j = 0; j < spots[i].length; j++) {
-                spots[i][j] = new Spot(i * 10 + j);
+                spots[i][j] = new Spot(i * 10 + j, island.getSpots());
             }
         }
 

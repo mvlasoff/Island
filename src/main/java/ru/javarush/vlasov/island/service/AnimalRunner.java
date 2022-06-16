@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AnimalRunner implements Runnable {
     private final Animal animal;
-    private final Spot spot;
+    private Spot spot;
 
     private final ScheduledExecutorService animalExecService;
 
@@ -70,6 +70,41 @@ public class AnimalRunner implements Runnable {
     //TODO Implement this.
     private void move() {
         if (!animal.isDead()) {
+
+            float foodLimit = animal.getFoodLimit();
+            int chanceToTravel = (int) (foodLimit + Constant.MAX_PERCENTAGE) / 2;
+            int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
+            if(rndNum <= chanceToTravel) {
+                tryTpMove();
+            }
+        }
+    }
+
+    private void tryTpMove() {
+        int travelSpeed = animal.getTravelSpeed();
+        Spot[][] spots = spot.getSpots();
+        int actualTravelSpeed = RndGen.getRndNum(travelSpeed + 1);
+        int x = spot.getID() / 10;
+        int y = spot.getID() % 10;
+        int checkX = x, checkY = y;
+        for (int i = 1; i <= actualTravelSpeed; i++) {
+            int nextX;
+            do {
+                nextX = RndGen.getRndNum(x - 1, x + 2);
+            } while (nextX < 0 || nextX > spots.length - 1);
+            x = nextX;
+
+            int nextY;
+            do {
+                nextY = RndGen.getRndNum(y - 1, y + 2);
+            } while (nextY < 0 || nextY > spots[0].length - 1);
+            y = nextY;
+        }
+
+        if(checkX != x || checkY != y) {
+            spot.getNature().remove(animal);
+            spots[x][y].getNature().add(animal);
+            spot = spots[x][y];
         }
     }
 
@@ -95,7 +130,7 @@ public class AnimalRunner implements Runnable {
     private boolean canReproduce(Animal animal, CopyOnWriteArrayList<Nature> nature) {
         int i = 0;
         for (Nature species : nature) {
-            if(!animal.isDead() && !species.isDead() && species.getClass() == animal.getClass()) {
+            if (!animal.isDead() && !species.isDead() && species.getClass() == animal.getClass()) {
                 i++;
             }
         }

@@ -9,10 +9,12 @@ public class Spot {
 
     private int iD;
     private final CopyOnWriteArrayList<Nature> nature = new CopyOnWriteArrayList<>();
+    private final Spot[][] spots;
     private SpotStatistics spotStatistics;
 
-    public Spot(int iD) {
+    public Spot(int iD, Spot[][] spots) {
         this.iD = iD;
+        this.spots = spots;
     }
 
     public void setSpotStatistics(SpotStatistics spotStatistics){
@@ -21,6 +23,14 @@ public class Spot {
 
     public CopyOnWriteArrayList<Nature> getNature() {
         return nature;
+    }
+
+    public Spot[][] getSpots() {
+        return spots;
+    }
+
+    public int getID() {
+        return iD;
     }
 
     public SpotStatistics getSpotStatistics() {
