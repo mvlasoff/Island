@@ -19,10 +19,10 @@ public class SpotRunner {
     }
 
     public void runSpots() {
-        ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(64);
-        ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(64);
-        ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(64);
-        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(64);
+        ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(4);
 
         for (int i = 0; i < spots.length; i++) {
             for (int j = 0; j < spots[i].length; j++) {
