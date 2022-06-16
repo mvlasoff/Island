@@ -27,12 +27,9 @@ public class SpotStatistics implements Runnable {
 
     @Override
     public void run() {
-        int predatorCount = 0;
-        int herbCount = 0;
-        int plantCount = 0;
-        int deadPredators = 0, deadHerb = 0;
-
+        int predatorCount = 0, herbCount = 0, plantCount = 0, deadPredators = 0, deadHerb = 0;
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
+
         for (Nature species : nature) {
             if (species instanceof Predator && !species.isDead()) {
                 predatorCount++;
