@@ -15,12 +15,6 @@ public class SpotCleaner implements Runnable {
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
         for (int i = 0; i < nature.size(); i++) {

@@ -1,13 +1,13 @@
 package com.javarush.island.vlasov.entity;
 
 public interface Nature {
-    int getSpeciesPerSpot();
-
-    void setDead();
-
     float getWeight();
 
+    int getSpeciesPerSpot();
+
     boolean isDead();
+
+    void setDead();
 
     Nature getInstance();
 }

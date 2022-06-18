@@ -29,7 +29,7 @@ public class PlantRunner implements Runnable {
     public void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         int repIndex = reproductionIndex(nature);
-        //Fewer plants, faster is their reproducing.
+        //When fewer plants, than faster their reproducing.
         if (repIndex < plant.getSpeciesPerSpot()
                 && RndGen.getRndNum(plant.getSpeciesPerSpot() + 1) > repIndex) {
             Nature species = plant.getInstance();

@@ -10,6 +10,7 @@ public class Plant implements Nature {
     public float getWeight() {
         return WEIGHT;
     }
+
     public int getSpeciesPerSpot() {
         return SPECIES_PER_SPOT;
     }
@@ -26,5 +27,4 @@ public class Plant implements Nature {
     public Nature getInstance() {
         return new Plant();
     }
-
 }

@@ -3,13 +3,10 @@ package com.javarush.island.vlasov.entity;
 import java.util.HashMap;
 
 public class Boa extends Predator {
-    private final float WEIGHT = 15;
-    private final int SPECIES_PER_SPOT = 30;
-    private final int TRAVEL_SPEED = 1;
-    private final float FOOD_LIMIT = 3;
     private final HashMap<String, Integer> CHANCE_TO_EAT = new HashMap<>();
 
     public Boa() {
+        super(15, 30, 1, 3);
         CHANCE_TO_EAT.put(Bear.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Boar.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Buffalo.class.getCanonicalName(), 0);
@@ -25,22 +22,6 @@ public class Boa extends Predator {
         CHANCE_TO_EAT.put(Rabbit.class.getCanonicalName(), 20);
         CHANCE_TO_EAT.put(Sheep.class.getCanonicalName(), 0);
         CHANCE_TO_EAT.put(Wolf.class.getCanonicalName(), 0);
-    }
-
-    public float getWeight() {
-        return WEIGHT;
-    }
-
-    public int getSpeciesPerSpot() {
-        return SPECIES_PER_SPOT;
-    }
-
-    public int getTravelSpeed() {
-        return TRAVEL_SPEED;
-    }
-
-    public float getFoodLimit() {
-        return FOOD_LIMIT;
     }
 
     public HashMap<String, Integer> getChanceToEat() {

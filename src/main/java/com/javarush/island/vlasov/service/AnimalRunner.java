@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class AnimalRunner implements Runnable {
     private final Animal animal;
     private Spot spot;
-
     private final ScheduledExecutorService animalExecService;
 
     public AnimalRunner(Animal animal, Spot spot, ScheduledExecutorService animalExecService) {
@@ -33,21 +32,23 @@ public class AnimalRunner implements Runnable {
     }
 
     private void eat() {
-        CopyOnWriteArrayList<Nature> nature = spot.getNature();
+        if (!animal.isDead()) {
+            CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
-        for (Nature n : nature) {
-            if (isSpeciesAvailable(n) && animal.getFoodLimit() > animal.getFull()) {
-                tryToEat(n);
+            for (Nature nat : nature) {
+                if (isSpeciesAvailable(nat) && this.animal.getFoodLimit() > this.animal.getFull()) {
+                    tryToEat(nat);
+                }
             }
         }
     }
 
     private void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
-        if (canReproduce(animal, nature)) {
-            for (Nature n : nature) {
-                if (isSpeciesAvailable(n) && animal.getClass() == n.getClass()) {
-                    Nature species = animal.getInstance();
+        if (!animal.isDead() && canReproduce(nature)) {
+            for (Nature nat : nature) {
+                if (isSpeciesAvailable(nat) && this.animal.getClass() == nat.getClass()) {
+                    Nature species = this.animal.getInstance();
                     nature.add(species);
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
                             0, 1000, TimeUnit.MILLISECONDS);
@@ -58,18 +59,19 @@ public class AnimalRunner implements Runnable {
     }
 
     private void dieIfHungry() {
-        if ((animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
+        if (!animal.isDead() && (animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
             animal.setDead();
         }
     }
 
     private void makeHungry() {
-        animal.setFull(0.0F);
+        if (!animal.isDead()) {
+            animal.setFull(0.0F);
+        }
     }
 
     private void move() {
         if (!animal.isDead()) {
-
             float foodLimit = animal.getFoodLimit();
             int chanceToTravel = (int) (foodLimit + Constant.MAX_PERCENTAGE) / 2;
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
@@ -89,13 +91,13 @@ public class AnimalRunner implements Runnable {
         for (int i = 1; i <= actualTravelSpeed; i++) {
             int nextX;
             do {
-                nextX = RndGen.getRndNum(x - 1, x + 2);
+                nextX = RndGen.getRndNum(x - 1, (x + 1) + 1);
             } while (nextX < 0 || nextX > spots.length - 1);
             x = nextX;
 
             int nextY;
             do {
-                nextY = RndGen.getRndNum(y - 1, y + 2);
+                nextY = RndGen.getRndNum(y - 1, (y + 1) + 1);
             } while (nextY < 0 || nextY > spots[0].length - 1);
             y = nextY;
         }
@@ -108,7 +110,7 @@ public class AnimalRunner implements Runnable {
     }
 
     private boolean isSpeciesAvailable(Nature nextSpecies) {
-        return animal != nextSpecies && !animal.isDead() && !nextSpecies.isDead();
+        return animal != nextSpecies && !nextSpecies.isDead();
     }
 
     private void tryToEat(Nature n) {
@@ -126,7 +128,7 @@ public class AnimalRunner implements Runnable {
         }
     }
 
-    private boolean canReproduce(Animal animal, CopyOnWriteArrayList<Nature> nature) {
+    private boolean canReproduce(CopyOnWriteArrayList<Nature> nature) {
         int i = 0;
         for (Nature species : nature) {
             if (!animal.isDead() && !species.isDead() && species.getClass() == animal.getClass()) {

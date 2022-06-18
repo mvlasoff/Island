@@ -31,12 +31,12 @@ public class SpotRunner {
                 statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1000, TimeUnit.MILLISECONDS);
                 //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
 
-                for (Nature n : nature) {
-                    if (n instanceof Animal) {
-                        animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) n, spot, animalExecService),
+                for (Nature species : nature) {
+                    if (species instanceof Animal) {
+                        animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
                                 0, 1000, TimeUnit.MILLISECONDS);
-                    } else if (n instanceof Plant) {
-                        plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) n, spot, plantExecService),
+                    } else if (species instanceof Plant) {
+                        plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) species, spot, plantExecService),
                                 0, 1000, TimeUnit.MILLISECONDS);
                     }
                 }
