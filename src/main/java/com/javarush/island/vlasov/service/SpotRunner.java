@@ -43,12 +43,9 @@ public class SpotRunner {
             }
         }
 
-
         statExecService.scheduleAtFixedRate(new IslandStatistics(spots),0, 1000, TimeUnit.MILLISECONDS);
-
-        Spot randomSpot = spots[RndGen.getRndNum(spots.length)][RndGen.getRndNum(spots[0].length)];
-        randomSpot.getSpotStatistics().setTurnOn(true);
-
+        /*Spot randomSpot = spots[RndGen.getRndNum(spots.length)][RndGen.getRndNum(spots[0].length)];
+        randomSpot.getSpotStatistics().setTurnOn(true);*/
 
         Sleeper.sleep(10000);
         animalExecService.shutdown();

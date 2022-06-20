@@ -23,6 +23,5 @@ public class SpotCleaner implements Runnable {
                 i--;
             }
         }
-
     }
 }

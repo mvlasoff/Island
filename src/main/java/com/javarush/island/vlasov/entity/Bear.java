@@ -33,4 +33,9 @@ public class Bear extends Predator {
     public Nature getInstance() {
         return new Bear();
     }
+
+    @Override
+    public String toString() {
+        return "Bear";
+    }
 }

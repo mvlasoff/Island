@@ -10,4 +10,6 @@ public interface Nature {
     void setDead();
 
     Nature getInstance();
+
+    String toString();
 }

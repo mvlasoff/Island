@@ -1,5 +1,6 @@
 package com.javarush.island.vlasov;
 
+import com.javarush.island.vlasov.entity.*;
 import com.javarush.island.vlasov.service.IslandRunner;
 
 public class Runner {

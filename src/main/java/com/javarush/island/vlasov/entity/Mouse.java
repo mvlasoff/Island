@@ -31,4 +31,9 @@ public class Mouse extends Herbivore {
     public Nature getInstance() {
         return new Mouse();
     }
+
+    @Override
+    public String toString() {
+        return "Mouse";
+    }
 }

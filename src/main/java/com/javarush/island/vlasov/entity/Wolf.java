@@ -31,4 +31,9 @@ public class Wolf extends Predator {
     public Nature getInstance() {
         return new Wolf();
     }
+
+    @Override
+    public String toString() {
+        return "Wolf";
+    }
 }

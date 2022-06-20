@@ -27,4 +27,9 @@ public class Plant implements Nature {
     public Nature getInstance() {
         return new Plant();
     }
+
+    @Override
+    public String toString() {
+        return "Plant";
+    }
 }

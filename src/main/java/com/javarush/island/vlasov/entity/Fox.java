@@ -28,8 +28,12 @@ public class Fox extends Predator {
         return CHANCE_TO_EAT;
     }
 
-
     public Nature getInstance() {
         return new Fox();
+    }
+
+    @Override
+    public String toString() {
+        return "Fox";
     }
 }

@@ -31,4 +31,9 @@ public class Caterpillar extends Herbivore {
     public Nature getInstance() {
         return new Caterpillar();
     }
+
+    @Override
+    public String toString() {
+        return "Caterpillar";
+    }
 }

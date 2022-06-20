@@ -31,4 +31,9 @@ public class Deer extends Herbivore {
     public Nature getInstance() {
         return new Deer();
     }
+
+    @Override
+    public String toString() {
+        return "Deer";
+    }
 }

@@ -33,5 +33,8 @@ public class Boa extends Predator {
         return new Boa();
     }
 
-
+    @Override
+    public String toString() {
+        return "Boa";
+    }
 }

@@ -31,4 +31,9 @@ public class Buffalo extends Herbivore {
     public Nature getInstance() {
         return new Buffalo();
     }
+
+    @Override
+    public String toString() {
+        return "Buffalo";
+    }
 }

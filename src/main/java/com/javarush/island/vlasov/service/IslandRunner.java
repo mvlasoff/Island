@@ -18,17 +18,6 @@ public class IslandRunner {
             }
         }
 
-        /*Spot randomSpot = spots[RndGen.getRndNum(spots.length)][RndGen.getRndNum(spots[0].length)];
-        randomSpot.getSpotStatistics().setTurnOn(true);*/
-
         new SpotRunner(spots).runSpots();
-
-/*        for (int i = 0; i < spots.length; i++) {
-            for (int j = 0; j < spots[i].length; j++) {
-                Spot spot = spots[i][j];
-                new SpotRunner(spot).runSpot();
-            }
-        }*/
-
     }
 }
