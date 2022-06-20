@@ -1,6 +1,5 @@
 package com.javarush.island.vlasov.utility;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public final class Constant {

@@ -1,7 +1,6 @@
 package com.javarush.island.vlasov.service;
 
 import com.javarush.island.vlasov.entity.Nature;
-import com.javarush.island.vlasov.utility.RndGen;
 import com.javarush.island.vlasov.utility.Sleeper;
 import com.javarush.island.vlasov.entity.Animal;
 import com.javarush.island.vlasov.entity.Plant;

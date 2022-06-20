@@ -3,12 +3,10 @@ package com.javarush.island.vlasov.service;
 import com.javarush.island.vlasov.entity.*;
 
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SpotStatistics implements Runnable {
     private final Spot spot;
-    //private boolean turnOn = false;
 
     private final HashMap<String, Integer> natureStatistics = new HashMap<>();
 
@@ -52,16 +50,7 @@ public class SpotStatistics implements Runnable {
                 deadHerb++;
             }
         }
-
-/*        if (turnOn) {
-            System.out.println("Random " + spot + " *** Predators: " + predatorCount + " *** Herbivores: " + herbCount + " *** Plants: " + plantCount
-                    + " *** Predators died: " + deadPredators + " *** Herbivores died: " + deadHerb);
-        }*/
     }
-
-    /*public void setTurnOn(boolean turnOn) {
-        this.turnOn = turnOn;
-    }*/
 
     public HashMap<String, Integer> getNatureStatistics() {
         return natureStatistics;

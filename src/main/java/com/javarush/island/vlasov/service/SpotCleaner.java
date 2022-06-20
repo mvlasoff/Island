@@ -12,7 +12,6 @@ public class SpotCleaner implements Runnable {
         this.spot = spot;
     }
 
-
     @Override
     public void run() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
