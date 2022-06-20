@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class PlantRunner implements Runnable {
     private final Plant plant;
     private final Spot spot;
+    private final int PERIOD = 1000;
 
     private final ScheduledExecutorService plantExecService;
 
@@ -29,13 +30,13 @@ public class PlantRunner implements Runnable {
     public void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         int repIndex = reproductionIndex(nature);
-        //When more plants, then slower their reproducing.
+        //When more plants, then slower their reproduction.
         if (repIndex < plant.getSpeciesPerSpot()
                 && RndGen.getRndNum(plant.getSpeciesPerSpot() + 1) > repIndex) {
             Nature species = plant.getInstance();
             nature.add(species);
             plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) species, spot, plantExecService),
-                    0, 1000, TimeUnit.MILLISECONDS);
+                    0, PERIOD, TimeUnit.MILLISECONDS);
         }
     }
 

@@ -11,16 +11,19 @@ import java.util.concurrent.*;
 
 public class SpotRunner {
     private final Spot[][] spots;
+    private final int PERIOD = 1000;
+    private final int LIFE_CYCLE = 10000;
+    private final int CORE_POOL_SIZE = 4;
 
     public SpotRunner(Spot[][] spots) {
         this.spots = spots;
     }
 
     public void runSpots() {
-        ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(4);
-        ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(4);
-        ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(4);
-        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
+        ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
+        ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
+        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
 
         for (Spot[] spotArray : spots) {
             for (Spot spot : spotArray) {
@@ -28,32 +31,30 @@ public class SpotRunner {
                 spot.makeNature();
                 CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
-                statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, 1000, TimeUnit.MILLISECONDS);
+                statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, PERIOD, TimeUnit.MILLISECONDS);
                 //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
 
                 for (Nature species : nature) {
                     if (species instanceof Animal) {
                         animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
-                                0, 1000, TimeUnit.MILLISECONDS);
+                                0, PERIOD, TimeUnit.MILLISECONDS);
                     } else if (species instanceof Plant) {
                         plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) species, spot, plantExecService),
-                                0, 1000, TimeUnit.MILLISECONDS);
+                                0, PERIOD, TimeUnit.MILLISECONDS);
                     }
                 }
             }
         }
 
-        statExecService.scheduleAtFixedRate(new IslandStatistics(spots),0, 1000, TimeUnit.MILLISECONDS);
-        /*Spot randomSpot = spots[RndGen.getRndNum(spots.length)][RndGen.getRndNum(spots[0].length)];
-        randomSpot.getSpotStatistics().setTurnOn(true);*/
+        statExecService.scheduleAtFixedRate(new IslandStatistics(spots),0, PERIOD, TimeUnit.MILLISECONDS);
 
-        Sleeper.sleep(10000);
+        Sleeper.sleep(LIFE_CYCLE);
         animalExecService.shutdown();
         plantExecService.shutdown();
         cleanerExecService.shutdown();
         statExecService.shutdown();
 
-        Sleeper.sleep(1000);
+        Sleeper.sleep(PERIOD);
         animalExecService.shutdownNow();
         plantExecService.shutdownNow();
         cleanerExecService.shutdownNow();
