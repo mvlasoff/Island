@@ -17,7 +17,7 @@ public class Spot {
         this.spots = spots;
     }
 
-    public void setSpotStatistics(SpotStatistics spotStatistics){
+    public void setSpotStatistics(SpotStatistics spotStatistics) {
         this.spotStatistics = spotStatistics;
     }
 
@@ -65,6 +65,6 @@ public class Spot {
 
     @Override
     public String toString() {
-        return "Spot[" + iD / 10  + "]" + "[" + iD % 10 + "]";
+        return "Spot[" + iD / 10 + "]" + "[" + iD % 10 + "]";
     }
 }

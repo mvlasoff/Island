@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AnimalRunner implements Runnable {
     private final Animal animal;
-    private final int PERIOD = 1000;
+    private final int PERIOD = 1;
     private Spot spot;
     private final ScheduledExecutorService animalExecService;
 
@@ -52,7 +52,7 @@ public class AnimalRunner implements Runnable {
                     Nature species = this.animal.getInstance();
                     nature.add(species);
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
-                            0, PERIOD, TimeUnit.MILLISECONDS);
+                            0, PERIOD, TimeUnit.SECONDS);
                     break;
                 }
             }
@@ -88,30 +88,15 @@ public class AnimalRunner implements Runnable {
         int actualTravelSpeed = RndGen.getRndNum(travelSpeed + 1);
         int x = spot.getID() / 10;
         int y = spot.getID() % 10;
-        int checkX = x, checkY = y;
-        for (int i = 1; i <= actualTravelSpeed; i++) {
-            int nextX;
-            do {
-                nextX = RndGen.getRndNum(x - 1, (x + 1) + 1);
-            } while (nextX < 0 || nextX > spots.length - 1);
-            x = nextX;
+        int xY = getNextCoordinates(x, y, actualTravelSpeed);
+        int newX = xY / 10;
+        int newY = xY % 10;
 
-            int nextY;
-            do {
-                nextY = RndGen.getRndNum(y - 1, (y + 1) + 1);
-            } while (nextY < 0 || nextY > spots[0].length - 1);
-            y = nextY;
-        }
-
-        if(checkX != x || checkY != y) {
+        if(newX != x || newY != y) {
             spot.getNature().remove(animal);
-            spots[x][y].getNature().add(animal);
-            spot = spots[x][y];
+            spots[newX][newY].getNature().add(animal);
+            spot = spots[newX][newY];
         }
-    }
-
-    private boolean isSpeciesAvailable(Nature nextSpecies) {
-        return animal != nextSpecies && !nextSpecies.isDead();
     }
 
     private void tryToEat(Nature n) {
@@ -137,5 +122,27 @@ public class AnimalRunner implements Runnable {
             }
         }
         return i < animal.getSpeciesPerSpot();
+    }
+
+    private boolean isSpeciesAvailable(Nature nextSpecies) {
+        return animal != nextSpecies && !nextSpecies.isDead();
+    }
+
+    private int getNextCoordinates(int x, int y, int actualTravelSpeed) {
+        Spot[][] spots = spot.getSpots();
+        for (int i = 1; i <= actualTravelSpeed; i++) {
+            int nextX;
+            do {
+                nextX = RndGen.getRndNum(x - 1, (x + 1) + 1);
+            } while (nextX < 0 || nextX > spots.length - 1);
+            x = nextX;
+
+            int nextY;
+            do {
+                nextY = RndGen.getRndNum(y - 1, (y + 1) + 1);
+            } while (nextY < 0 || nextY > spots[0].length - 1);
+            y = nextY;
+        }
+        return x * 10 + y;
     }
 }

@@ -1,6 +1,7 @@
 package com.javarush.island.vlasov.service;
 
 import com.javarush.island.vlasov.entity.*;
+import com.javarush.island.vlasov.utility.Constant;
 import com.javarush.island.vlasov.utility.RndGen;
 
 import java.util.HashMap;
@@ -55,19 +56,21 @@ public class IslandStatistics implements Runnable {
                 + " - " + max
                 + "\t *** Min population: " + minSpecies
                 + " - " + min
-                /*+ " *** Predators died: " + randomSpot.getSpotStatistics().getDeadPredators()
-                + " *** Herbivores died: " + randomSpot.getSpotStatistics().getDeadHerb()*/);
+                + " *** Predators died: " + randomSpot.getSpotStatistics().getDeadPredators()
+                + " *** Herbivores died: " + randomSpot.getSpotStatistics().getDeadHerb());
 
         System.out.println("Island statistics:"
                 + "\t *** Predators: " + predatorCount
                 + "\t *** Herbivores: " + herbCount
                 + "\t *** Plants: " + plantCount
-                + "\t *** Max population: " + islandMaxSpecies
+                + "\t *** Max population: " + Constant.unicodeSymbols.get(islandMaxSpecies)
                 + " - " + islandMax
-                + "\t *** Min population: " + islandMinSpecies
+                + "\t *** Min population: " + Constant.unicodeSymbols.get(islandMinSpecies)
                 + " - " + islandMin
-                /*+ " *** Predators died: " + deadPredators
-                + " *** Herbivores died: " + deadHerb*/);
+                + " *** Predators died: " + deadPredators
+                + " *** Herbivores died: " + deadHerb);
+
+        System.out.println("*********************************************************************");
     }
 
     private void fillIslandNatureStatistics(SpotStatistics spotStatistics) {

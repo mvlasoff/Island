@@ -10,9 +10,12 @@ import java.util.concurrent.*;
 
 public class SpotRunner {
     private final Spot[][] spots;
-    private final int PERIOD = 1000;
-    private final int LIFE_CYCLE = 10000;
     private final int CORE_POOL_SIZE = 4;
+    public static final int INITIAL_CLEANING_DELAY = 700;
+    public static final int CLEANING_PERIOD = 1000;
+    private final int NATURE_LIFE_PERIOD = 1;
+    private final int LIFE_CYCLE = 360000;
+    private final int FINAL_SHUTDOWN = 1100;
 
     public SpotRunner(Spot[][] spots) {
         this.spots = spots;
@@ -30,22 +33,22 @@ public class SpotRunner {
                 spot.makeNature();
                 CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
-                statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, PERIOD, TimeUnit.MILLISECONDS);
-                //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), 500, 1000, TimeUnit.MILLISECONDS);
+                statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
+                cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), INITIAL_CLEANING_DELAY, CLEANING_PERIOD, TimeUnit.MILLISECONDS);
 
                 for (Nature species : nature) {
                     if (species instanceof Animal) {
                         animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
-                                0, PERIOD, TimeUnit.MILLISECONDS);
+                                0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
                     } else if (species instanceof Plant) {
                         plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) species, spot, plantExecService),
-                                0, PERIOD, TimeUnit.MILLISECONDS);
+                                0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
                     }
                 }
             }
         }
 
-        statExecService.scheduleAtFixedRate(new IslandStatistics(spots),0, PERIOD, TimeUnit.MILLISECONDS);
+        statExecService.scheduleAtFixedRate(new IslandStatistics(spots),0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
 
         Sleeper.sleep(LIFE_CYCLE);
         animalExecService.shutdown();
@@ -53,7 +56,7 @@ public class SpotRunner {
         cleanerExecService.shutdown();
         statExecService.shutdown();
 
-        Sleeper.sleep(PERIOD);
+        Sleeper.sleep(FINAL_SHUTDOWN);
         animalExecService.shutdownNow();
         plantExecService.shutdownNow();
         cleanerExecService.shutdownNow();
