@@ -105,6 +105,7 @@ public class AnimalRunner implements Runnable {
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
             if (chance >= rndNum) {
                 if (n instanceof Plant) {
+                    n.setDead();
                     animal.setFull(animal.getFull() + n.getWeight());
                 } else {
                     n.setDead();

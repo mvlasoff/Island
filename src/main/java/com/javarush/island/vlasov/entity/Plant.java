@@ -23,6 +23,10 @@ public class Plant implements Nature {
         isDead.set(true);
     }
 
+    public void setAlive() {
+        isDead.set(false);
+    }
+
     @Override
     public Nature getInstance() {
         return new Plant();

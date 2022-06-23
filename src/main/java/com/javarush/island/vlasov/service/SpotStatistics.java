@@ -42,7 +42,7 @@ public class SpotStatistics implements Runnable {
                 predatorCount++;
             } else if (species instanceof Herbivore && !species.isDead()) {
                 herbCount++;
-            } else if (species instanceof Plant) {
+            } else if (species instanceof Plant && !species.isDead()) {
                 plantCount++;
             } else if (species instanceof Predator && species.isDead()) {
                 deadPredators++;
