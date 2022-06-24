@@ -24,14 +24,20 @@ public class PlantRunner implements Runnable {
 
     @Override
     public void run() {
+        grow();
         reproduce();
+    }
+
+    private void grow() {
+        plant.setAlive();
     }
 
     public void reproduce() {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
         int repIndex = reproductionIndex(nature);
         //When more plants, then slower their reproduction.
-        if (repIndex < plant.getSpeciesPerSpot()
+        if (!plant.isDead()
+                && repIndex < plant.getSpeciesPerSpot()
                 && RndGen.getRndNum(plant.getSpeciesPerSpot() + 1) > repIndex) {
             Nature species = plant.getInstance();
             nature.add(species);

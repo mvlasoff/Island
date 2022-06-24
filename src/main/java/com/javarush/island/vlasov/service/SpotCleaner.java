@@ -17,7 +17,7 @@ public class SpotCleaner implements Runnable {
         CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
         for (int i = 0; i < nature.size(); i++) {
-            if (nature.get(i) != null && nature.get(i) instanceof Animal && nature.get(i).isDead()) {
+            if (nature.get(i) != null && nature.get(i).isDead()) {
                 nature.remove(i);
                 i--;
             }

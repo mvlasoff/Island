@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 public class SpotRunner {
     private final Spot[][] spots;
     private final int CORE_POOL_SIZE = 4;
-    public static final int INITIAL_CLEANING_DELAY = 700;
+    public static final int INITIAL_CLEANING_DELAY = 500;
     public static final int CLEANING_PERIOD = 1000;
     private final int NATURE_LIFE_PERIOD = 1;
     private final int LIFE_CYCLE = 360000;
