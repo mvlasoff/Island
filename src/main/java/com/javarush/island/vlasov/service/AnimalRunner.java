@@ -25,11 +25,13 @@ public class AnimalRunner implements Runnable {
 
     @Override
     public void run() {
-        eat();
-        reproduce();
-        dieIfHungry();
-        makeHungry();
-        move();
+        if (!animal.isDead()) {
+            eat();
+            reproduce();
+            dieIfHungry();
+            makeHungry();
+            move();
+        }
     }
 
     private void eat() {
@@ -76,7 +78,7 @@ public class AnimalRunner implements Runnable {
             float foodLimit = animal.getFoodLimit();
             int chanceToTravel = (int) (foodLimit + Constant.MAX_PERCENTAGE) / 2;
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
-            if(rndNum <= chanceToTravel) {
+            if (rndNum <= chanceToTravel) {
                 tryTpMove();
             }
         }
@@ -92,7 +94,7 @@ public class AnimalRunner implements Runnable {
         int newX = xY / 10;
         int newY = xY % 10;
 
-        if(newX != x || newY != y) {
+        if (newX != x || newY != y) {
             spot.getNature().remove(animal);
             spots[newX][newY].getNature().add(animal);
             spot = spots[newX][newY];

@@ -12,7 +12,7 @@ public final class Constant {
         unicodeSymbols.put("Boa", "\uD83D\uDC0D");
         unicodeSymbols.put("Boar", "\uD83D\uDC17");
         unicodeSymbols.put("Buffalo", "\uD83D\uDC03");
-        unicodeSymbols.put("Caterpillar", "\uD83D\uDC3B");
+        unicodeSymbols.put("Caterpillar", "\uD83D\uDC1B");
         unicodeSymbols.put("Deer", "\uD83E\uDD8C");
         unicodeSymbols.put("Duck", "\uD83E\uDD86");
         unicodeSymbols.put("Eagle", "\uD83E\uDD85");
@@ -23,7 +23,6 @@ public final class Constant {
         unicodeSymbols.put("Rabbit", "\uD83D\uDC07");
         unicodeSymbols.put("Sheep", "\uD83D\uDC11");
         unicodeSymbols.put("Wolf", "\uD83D\uDC3A");
-        unicodeSymbols.put("Plant", "\uD83D\uDC3B");
     }
 
     private Constant() {
