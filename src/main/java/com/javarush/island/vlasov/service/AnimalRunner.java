@@ -60,7 +60,10 @@ public class AnimalRunner implements Runnable {
     }
 
     private void dieIfHungry() {
-        if (!animal.isDead() && (animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
+        /*if (!animal.isDead() && (animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
+            animal.setDead();
+        }*/
+        if (animal.getFull() < (animal.getFoodLimit() / 2)) {
             animal.setDead();
         }
     }
@@ -76,7 +79,7 @@ public class AnimalRunner implements Runnable {
             float foodLimit = animal.getFoodLimit();
             int chanceToTravel = (int) (foodLimit + Constant.MAX_PERCENTAGE) / 2;
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
-            if(rndNum <= chanceToTravel) {
+            if (rndNum <= chanceToTravel) {
                 tryTpMove();
             }
         }
@@ -92,7 +95,7 @@ public class AnimalRunner implements Runnable {
         int newX = xY / 10;
         int newY = xY % 10;
 
-        if(newX != x || newY != y) {
+        if (newX != x || newY != y) {
             spot.getNature().remove(animal);
             spots[newX][newY].getNature().add(animal);
             spot = spots[newX][newY];
@@ -105,7 +108,6 @@ public class AnimalRunner implements Runnable {
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
             if (chance >= rndNum) {
                 if (n instanceof Plant) {
-                    n.setDead();
                     animal.setFull(animal.getFull() + n.getWeight());
                 } else {
                     n.setDead();

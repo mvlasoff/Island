@@ -11,8 +11,6 @@ import java.util.concurrent.*;
 public class SpotRunner {
     private final Spot[][] spots;
     private final int CORE_POOL_SIZE = 4;
-    public static final int INITIAL_CLEANING_DELAY = 500;
-    public static final int CLEANING_PERIOD = 1000;
     private final int NATURE_LIFE_PERIOD = 1;
     private final int LIFE_CYCLE = 360000;
     private final int FINAL_SHUTDOWN = 1100;
@@ -25,7 +23,6 @@ public class SpotRunner {
         ScheduledExecutorService animalExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
         ScheduledExecutorService plantExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
         ScheduledExecutorService statExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
-        ScheduledExecutorService cleanerExecService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
 
         for (Spot[] spotArray : spots) {
             for (Spot spot : spotArray) {
@@ -34,7 +31,6 @@ public class SpotRunner {
                 CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
                 statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
-                //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), INITIAL_CLEANING_DELAY, CLEANING_PERIOD, TimeUnit.MILLISECONDS);
 
                 for (Nature species : nature) {
                     if (species instanceof Animal) {
@@ -53,13 +49,11 @@ public class SpotRunner {
         Sleeper.sleep(LIFE_CYCLE);
         animalExecService.shutdown();
         plantExecService.shutdown();
-        cleanerExecService.shutdown();
         statExecService.shutdown();
 
         Sleeper.sleep(FINAL_SHUTDOWN);
         animalExecService.shutdownNow();
         plantExecService.shutdownNow();
-        cleanerExecService.shutdownNow();
         statExecService.shutdownNow();
     }
 }
