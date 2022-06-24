@@ -34,7 +34,7 @@ public class SpotRunner {
                 CopyOnWriteArrayList<Nature> nature = spot.getNature();
 
                 statExecService.scheduleAtFixedRate(new SpotStatistics(spot), 0, NATURE_LIFE_PERIOD, TimeUnit.SECONDS);
-                cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), INITIAL_CLEANING_DELAY, CLEANING_PERIOD, TimeUnit.MILLISECONDS);
+                //cleanerExecService.scheduleAtFixedRate(new SpotCleaner(spot), INITIAL_CLEANING_DELAY, CLEANING_PERIOD, TimeUnit.MILLISECONDS);
 
                 for (Nature species : nature) {
                     if (species instanceof Animal) {

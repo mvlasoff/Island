@@ -52,9 +52,9 @@ public class IslandStatistics implements Runnable {
                 + "\t *** Predators: " + randomSpot.getSpotStatistics().getPredatorCount()
                 + "\t\t *** Herbivores: " + randomSpot.getSpotStatistics().getHerbCount()
                 + "\t *** Plants: " + randomSpot.getSpotStatistics().getPlantCount()
-                + "\t *** Max population: " + maxSpecies
+                + "\t *** Max population: " + Constant.unicodeSymbols.get(maxSpecies)
                 + " - " + max
-                + "\t *** Min population: " + minSpecies
+                + "\t *** Min population: " + Constant.unicodeSymbols.get(minSpecies)
                 + " - " + min
                 + " *** Predators died: " + randomSpot.getSpotStatistics().getDeadPredators()
                 + " *** Herbivores died: " + randomSpot.getSpotStatistics().getDeadHerb());
@@ -65,7 +65,7 @@ public class IslandStatistics implements Runnable {
                 + "\t *** Plants: " + plantCount
                 + "\t *** Max population: " + Constant.unicodeSymbols.get(islandMaxSpecies)
                 + " - " + islandMax
-                + "\t *** Min population: " + Constant.unicodeSymbols.get(islandMinSpecies)
+                + " *** Min population: " + Constant.unicodeSymbols.get(islandMinSpecies)
                 + " - " + islandMin
                 + " *** Predators died: " + deadPredators
                 + " *** Herbivores died: " + deadHerb);
