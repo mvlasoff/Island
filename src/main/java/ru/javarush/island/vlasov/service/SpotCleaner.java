@@ -5,6 +5,7 @@ import ru.javarush.island.vlasov.entity.Spot;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@SuppressWarnings({"unused", "Works, but requires more memory."})
 public class SpotCleaner implements Runnable {
     private final Spot spot;
 

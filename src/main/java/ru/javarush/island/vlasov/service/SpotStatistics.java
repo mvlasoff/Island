@@ -30,7 +30,7 @@ public class SpotStatistics implements Runnable {
         for (Nature species : nature) {
             if (!species.isDead()) {
                 Integer i = natureStatistics.get(species.toString());
-                if(i != null) {
+                if (i != null) {
                     i++;
                     natureStatistics.put(species.toString(), i);
                 } else {

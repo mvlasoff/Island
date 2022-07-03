@@ -1,18 +1,19 @@
 package ru.javarush.island.vlasov.service;
 
-import ru.javarush.island.vlasov.utility.RndGen;
 import ru.javarush.island.vlasov.entity.Nature;
 import ru.javarush.island.vlasov.entity.Plant;
 import ru.javarush.island.vlasov.entity.Spot;
+import ru.javarush.island.vlasov.utility.RndGen;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class PlantRunner implements Runnable {
     private final Plant plant;
     private final Spot spot;
-    private final int PERIOD = 1;
+    private final int PERIOD = 1000;
 
     private final ScheduledExecutorService plantExecService;
 
@@ -36,7 +37,7 @@ public class PlantRunner implements Runnable {
             Nature species = plant.getInstance();
             nature.add(species);
             plantExecService.scheduleAtFixedRate(new PlantRunner((Plant) species, spot, plantExecService),
-                    0, PERIOD, TimeUnit.SECONDS);
+                    0, PERIOD, TimeUnit.MILLISECONDS);
         }
     }
 

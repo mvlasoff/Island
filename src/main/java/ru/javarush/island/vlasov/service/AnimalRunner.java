@@ -11,9 +11,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class AnimalRunner implements Runnable {
     private final Animal animal;
-    private final int PERIOD = 1;
+    private final int PERIOD = 1000;
     private Spot spot;
     private final ScheduledExecutorService animalExecService;
 
@@ -52,7 +53,7 @@ public class AnimalRunner implements Runnable {
                     Nature species = this.animal.getInstance();
                     nature.add(species);
                     animalExecService.scheduleAtFixedRate(new AnimalRunner((Animal) species, spot, animalExecService),
-                            0, PERIOD, TimeUnit.SECONDS);
+                            0, PERIOD, TimeUnit.MILLISECONDS);
                     break;
                 }
             }
@@ -60,10 +61,7 @@ public class AnimalRunner implements Runnable {
     }
 
     private void dieIfHungry() {
-        /*if (!animal.isDead() && (animal.getFoodLimit() - animal.getFull()) >= (animal.getFoodLimit() / 2)) {
-            animal.setDead();
-        }*/
-        if (animal.getFull() < (animal.getFoodLimit() / 2)) {
+        if (!animal.isDead() && animal.getFull() < (animal.getFoodLimit() / 2)) {
             animal.setDead();
         }
     }
@@ -104,7 +102,7 @@ public class AnimalRunner implements Runnable {
 
     private void tryToEat(Nature n) {
         Integer chance = animal.getChanceToEat().get(n.getClass().getCanonicalName());
-        if (chance != null && chance > 0) {
+        if (chance != null) {
             int rndNum = RndGen.getRndNum(Constant.MAX_PERCENTAGE + 1);
             if (chance >= rndNum) {
                 if (n instanceof Plant) {

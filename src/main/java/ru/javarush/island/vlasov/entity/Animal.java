@@ -3,12 +3,14 @@ package ru.javarush.island.vlasov.entity;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 public abstract class Animal implements Nature {
     private final float WEIGHT;
     private final int SPECIES_PER_SPOT;
     private final int TRAVEL_SPEED;
     private final float FOOD_LIMIT;
-    private AtomicBoolean isDead = new AtomicBoolean(false);
+
+    private final AtomicBoolean isDead = new AtomicBoolean(false);
     private volatile float full = 0;
 
     public Animal(float weight, int speciesPerSpot, int travelSpeed, float foodLimit) {

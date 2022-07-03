@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Spot {
 
-    private int iD;
+    private final int iD;
     private final CopyOnWriteArrayList<Nature> nature = new CopyOnWriteArrayList<>();
     private final Spot[][] spots;
     private SpotStatistics spotStatistics;
